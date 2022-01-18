@@ -4,6 +4,7 @@
 LPCTSTR szForceShellExecute = TEXT("ForceShellExecute");
 LPCTSTR szHklmShellExec = TEXT("SOFTWARE\\Microsoft\\Office\\9.0\\Common\\Internet");
 LPCTSTR szHklmShellExecWOW6432 = TEXT("SOFTWARE\\WOW6432Node\\Microsoft\\Office\\9.0\\Common\\Internet");
+const DWORD dwShellExecValue = 0x00000001;
 
 BOOL CreateRegKey(HKEY hKeyParent, LPCTSTR subKey)
 {
@@ -28,11 +29,11 @@ BOOL WriteRegDword(HKEY hKeyParent, LPCTSTR subKey, LPCTSTR valueName, DWORD dat
 int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow)
 {
 	if (CreateRegKey(HKEY_LOCAL_MACHINE, szHklmShellExec))
-		WriteRegDword(HKEY_LOCAL_MACHINE, szHklmShellExec, szForceShellExecute, 0x00000001);
+		WriteRegDword(HKEY_LOCAL_MACHINE, szHklmShellExec, szForceShellExecute, dwShellExecValue);
 	else
 		MessageBox(NULL, TEXT("Error - Faled to create ForceShellExecute 64-bit entries"), TEXT("ForceShellExecute"), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 	if (CreateRegKey(HKEY_LOCAL_MACHINE, szHklmShellExecWOW6432))
-		WriteRegDword(HKEY_LOCAL_MACHINE, szHklmShellExecWOW6432, szForceShellExecute, 0x00000001);
+		WriteRegDword(HKEY_LOCAL_MACHINE, szHklmShellExecWOW6432, szForceShellExecute, dwShellExecValue);
 	else
 		MessageBox(NULL, TEXT("Error - Faled to create ForceShellExecute 32-bit entries"), TEXT("ForceShellExecute"), MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
 
